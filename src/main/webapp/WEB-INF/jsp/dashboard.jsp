@@ -43,7 +43,7 @@
         </div>
         <div class="col-sm-6 col-xl-3">
             <a class="card stat-card stat-card-icon" href="${ctx}/enrolments">
-                <span class="stat-icon tone-amber"><i class="bi bi-card-checklist"></i></span>
+                <span class="stat-icon tone-indigo"><i class="bi bi-card-checklist"></i></span>
                 <span class="stat-body"><span class="stat-value"><c:out value="${totalEnrolments}"/></span><span class="stat-label">Enrolments</span></span>
             </a>
         </div>
@@ -152,7 +152,7 @@
         </div>
         <div class="col-sm-6 col-xl-3">
             <a class="card stat-card stat-card-icon" href="${ctx}/attendance">
-                <span class="stat-icon tone-amber"><i class="bi bi-calendar-check"></i></span>
+                <span class="stat-icon tone-indigo"><i class="bi bi-calendar-check"></i></span>
                 <span class="stat-body"><span class="stat-value"><c:out value="${sessionCount}"/></span><span class="stat-label">Sessions recorded</span></span>
             </a>
         </div>
@@ -233,7 +233,7 @@
         </div>
         <div class="col-sm-6 col-xl-3">
             <a class="card stat-card stat-card-icon" href="${ctx}/attendance">
-                <span class="stat-icon tone-amber"><i class="bi bi-calendar-check"></i></span>
+                <span class="stat-icon tone-indigo"><i class="bi bi-calendar-check"></i></span>
                 <span class="stat-body"><span class="stat-value"><c:out value="${sessionCount}"/></span><span class="stat-label">Sessions recorded</span></span>
             </a>
         </div>

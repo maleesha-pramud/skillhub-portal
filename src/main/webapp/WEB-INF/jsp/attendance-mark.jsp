@@ -54,7 +54,7 @@
                                     <input type="radio" class="btn-check" name="status_${s.id}" id="p${s.id}" value="PRESENT" ${cur == 'PRESENT' ? 'checked' : ''}>
                                     <label class="btn btn-outline-success" for="p${s.id}">Present</label>
                                     <input type="radio" class="btn-check" name="status_${s.id}" id="l${s.id}" value="LATE" ${cur == 'LATE' ? 'checked' : ''}>
-                                    <label class="btn btn-outline-warning" for="l${s.id}">Late</label>
+                                    <label class="btn btn-outline-late" for="l${s.id}">Late</label>
                                     <input type="radio" class="btn-check" name="status_${s.id}" id="a${s.id}" value="ABSENT" ${cur == 'ABSENT' ? 'checked' : ''}>
                                     <label class="btn btn-outline-danger" for="a${s.id}">Absent</label>
                                 </div>
