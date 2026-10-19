@@ -79,6 +79,20 @@ public class CourseServlet extends HttpServlet {
         }
 
         int id = WebUtil.toInt(req.getParameter("id"), 0);
+        Course existing = id == 0 ? null : store.findCourse(id);
+
+        if ("toggle".equals(WebUtil.trim(req.getParameter("action")))) {
+            if (existing == null) {
+                res.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+            existing.setActive(!existing.isActive());
+            store.log(user.getFullName() + (existing.isActive() ? " activated course " : " deactivated course ") + existing.getCode());
+            Flash.success(req, "Course " + existing.getCode() + (existing.isActive() ? " was activated." : " was deactivated."));
+            WebUtil.redirect(req, res, "/courses");
+            return;
+        }
+
         Course c = new Course();
         c.setId(id);
         c.setCode(WebUtil.trim(req.getParameter("code")).toUpperCase());
@@ -90,7 +104,7 @@ public class CourseServlet extends HttpServlet {
         c.setCapacity(WebUtil.toInt(req.getParameter("capacity"), 0));
         c.setFee(WebUtil.toDouble(req.getParameter("fee"), -1));
         c.setSchedule(WebUtil.trim(req.getParameter("schedule")));
-        c.setActive(req.getParameter("active") != null);
+        c.setActive(existing == null || existing.isActive());
 
         List<String> errors = new ArrayList<>();
         if (!c.getCode().matches("^[A-Z0-9]{4,10}$")) errors.add("Course code must be 4 to 10 letters or numbers.");

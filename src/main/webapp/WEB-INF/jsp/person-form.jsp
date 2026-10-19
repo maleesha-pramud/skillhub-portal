@@ -46,12 +46,6 @@
                         <div class="form-text">${isNew ? 'At least 8 characters with a letter and a number.' : 'Leave blank to keep the current password.'}</div>
                         <div class="invalid-feedback">Enter a password of at least 8 characters.</div>
                     </div>
-                    <div class="col-md-6 d-flex align-items-center">
-                        <div class="form-check form-switch mt-md-3">
-                            <input class="form-check-input" type="checkbox" role="switch" id="active" name="active" value="true" ${isNew || person.active ? 'checked' : ''}>
-                            <label class="form-check-label" for="active">Account is active</label>
-                        </div>
-                    </div>
                 </div>
                 <hr class="my-4">
                 <div class="d-flex gap-2 justify-content-end">

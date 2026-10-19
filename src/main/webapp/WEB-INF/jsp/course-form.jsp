@@ -67,12 +67,6 @@
                         <textarea class="form-control" id="description" name="description" rows="3" maxlength="300"><c:out value="${course.description}"/></textarea>
                         <div class="form-text">Up to 300 characters.</div>
                     </div>
-                    <div class="col-12">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="active" name="active" value="true" ${course.active ? 'checked' : ''}>
-                            <label class="form-check-label" for="active">Course is active (visible to students)</label>
-                        </div>
-                    </div>
                 </div>
                 <hr class="my-4">
                 <div class="d-flex gap-2 justify-content-end">

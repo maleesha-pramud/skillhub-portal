@@ -36,6 +36,14 @@
                     <td class="text-end">
                         <div class="d-inline-flex gap-1">
                             <a class="btn btn-sm btn-light-border" href="${ctx}${basePath}?action=edit&amp;id=${p.id}" title="Edit"><i class="bi bi-pencil"></i></a>
+                            <form method="post" action="${ctx}${basePath}" data-confirm="${p.active ? 'Deactivate' : 'Activate'} ${fn:escapeXml(p.fullName)}?">
+                                <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
+                                <input type="hidden" name="action" value="toggle">
+                                <input type="hidden" name="id" value="${p.id}">
+                                <button type="submit" class="btn btn-sm btn-light-border ${p.active ? 'text-danger' : 'text-success'}" title="${p.active ? 'Deactivate' : 'Activate'}">
+                                    <i class="bi ${p.active ? 'bi-person-slash' : 'bi-person-check'}"></i>
+                                </button>
+                            </form>
                             <c:if test="${allowDelete}">
                                 <form method="post" action="${ctx}${basePath}" data-confirm="Delete ${fn:escapeXml(p.fullName)}? Their enrolments and attendance will also be removed.">
                                     <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">

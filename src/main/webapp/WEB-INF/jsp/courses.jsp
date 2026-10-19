@@ -52,6 +52,14 @@
                     <div class="course-foot">
                         <c:choose>
                             <c:when test="${currentUser.admin}">
+                                <form method="post" action="${ctx}/courses" data-confirm="${c.active ? 'Deactivate' : 'Activate'} ${fn:escapeXml(c.code)}?">
+                                    <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
+                                    <input type="hidden" name="action" value="toggle">
+                                    <input type="hidden" name="id" value="${c.id}">
+                                    <button type="submit" class="btn btn-sm btn-light-border ${c.active ? 'text-danger' : 'text-success'}" title="${c.active ? 'Deactivate' : 'Activate'}">
+                                        <i class="bi ${c.active ? 'bi-eye-slash' : 'bi-eye'} me-1"></i>${c.active ? 'Deactivate' : 'Activate'}
+                                    </button>
+                                </form>
                                 <a class="btn btn-sm btn-outline-primary" href="${ctx}/courses?action=edit&amp;id=${c.id}"><i class="bi bi-pencil me-1"></i>Edit</a>
                             </c:when>
                             <c:when test="${currentUser.trainer}">

@@ -67,6 +67,19 @@ public abstract class AbstractPeopleServlet extends HttpServlet {
             return;
         }
 
+        if ("toggle".equals(action)) {
+            User u = store.findUser(id);
+            if (u == null || u.getRole() != role()) {
+                res.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+            u.setActive(!u.isActive());
+            store.log(admin.getFullName() + (u.isActive() ? " activated " : " deactivated ") + role().getLabel().toLowerCase() + " " + u.getFullName());
+            Flash.success(req, u.getFullName() + (u.isActive() ? " was activated." : " was deactivated."));
+            WebUtil.redirect(req, res, basePath());
+            return;
+        }
+
         User existing = id == 0 ? null : store.findUser(id);
         if (id != 0 && (existing == null || existing.getRole() != role())) {
             res.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -79,7 +92,7 @@ public abstract class AbstractPeopleServlet extends HttpServlet {
         form.setUsername(WebUtil.trim(req.getParameter("username")));
         form.setEmail(WebUtil.trim(req.getParameter("email")));
         form.setPhone(WebUtil.trim(req.getParameter("phone")));
-        form.setActive(req.getParameter("active") != null);
+        form.setActive(existing == null || existing.isActive());
         String password = req.getParameter("password");
 
         List<String> errors = new ArrayList<>();
