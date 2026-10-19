@@ -1,0 +1,9 @@
+<c:if test="${not empty sessionScope.flashMsg}">
+    <div class="alert alert-${sessionScope.flashType} alert-dismissible fade show flash-msg" role="alert">
+        <i class="bi ${sessionScope.flashType == 'success' ? 'bi-check-circle-fill' : (sessionScope.flashType == 'danger' ? 'bi-exclamation-octagon-fill' : 'bi-info-circle-fill')} me-2"></i>
+        <c:out value="${sessionScope.flashMsg}"/>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <c:remove var="flashMsg" scope="session"/>
+    <c:remove var="flashType" scope="session"/>
+</c:if>

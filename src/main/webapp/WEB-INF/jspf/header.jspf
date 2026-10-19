@@ -1,0 +1,77 @@
+<c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%@ include file="head.jspf" %>
+    <title><c:out value="${pageTitle}"/> | <c:out value="${applicationScope.academyName}"/></title>
+</head>
+<body class="app-body">
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+<aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <a class="brand" href="${ctx}/dashboard">
+        <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
+        <span class="brand-text">SkillHub<small>Training Academy &middot; Colombo</small></span>
+    </a>
+
+    <nav class="sidebar-nav">
+        <div class="nav-group">Overview</div>
+        <a class="nav-item ${activeNav == 'dashboard' ? 'active' : ''}" href="${ctx}/dashboard"><i class="bi bi-grid-1x2"></i>Dashboard</a>
+
+        <c:if test="${currentUser.admin}">
+            <div class="nav-group">Academy</div>
+            <a class="nav-item ${activeNav == 'students' ? 'active' : ''}" href="${ctx}/admin/students"><i class="bi bi-people"></i>Students</a>
+            <a class="nav-item ${activeNav == 'trainers' ? 'active' : ''}" href="${ctx}/admin/trainers"><i class="bi bi-person-workspace"></i>Trainers</a>
+            <a class="nav-item ${activeNav == 'courses' ? 'active' : ''}" href="${ctx}/courses"><i class="bi bi-journal-bookmark"></i>Courses</a>
+            <a class="nav-item ${activeNav == 'enrolments' ? 'active' : ''}" href="${ctx}/enrolments"><i class="bi bi-card-checklist"></i>Enrolments</a>
+            <a class="nav-item ${activeNav == 'attendance' ? 'active' : ''}" href="${ctx}/attendance"><i class="bi bi-calendar-check"></i>Attendance</a>
+            <a class="nav-item ${activeNav == 'mark' ? 'active' : ''}" href="${ctx}/attendance/mark"><i class="bi bi-clipboard2-check"></i>Mark Attendance</a>
+            <div class="nav-group">System</div>
+            <a class="nav-item ${activeNav == 'users' ? 'active' : ''}" href="${ctx}/admin/users"><i class="bi bi-shield-lock"></i>Manage Users</a>
+            <a class="nav-item ${activeNav == 'reports' ? 'active' : ''}" href="${ctx}/admin/reports"><i class="bi bi-bar-chart-line"></i>Reports</a>
+            <a class="nav-item ${activeNav == 'settings' ? 'active' : ''}" href="${ctx}/admin/settings"><i class="bi bi-sliders"></i>Settings</a>
+        </c:if>
+
+        <c:if test="${currentUser.trainer}">
+            <div class="nav-group">Teaching</div>
+            <a class="nav-item ${activeNav == 'courses' ? 'active' : ''}" href="${ctx}/courses"><i class="bi bi-journal-bookmark"></i>Assigned Courses</a>
+            <a class="nav-item ${activeNav == 'attendance' ? 'active' : ''}" href="${ctx}/attendance"><i class="bi bi-calendar-check"></i>Attendance</a>
+        </c:if>
+
+        <c:if test="${currentUser.student}">
+            <div class="nav-group">Learning</div>
+            <a class="nav-item ${activeNav == 'courses' ? 'active' : ''}" href="${ctx}/courses"><i class="bi bi-journal-bookmark"></i>Browse Courses</a>
+            <a class="nav-item ${activeNav == 'enrolments' ? 'active' : ''}" href="${ctx}/enrolments"><i class="bi bi-card-checklist"></i>My Enrolments</a>
+            <a class="nav-item ${activeNav == 'attendance' ? 'active' : ''}" href="${ctx}/attendance"><i class="bi bi-calendar-check"></i>My Attendance</a>
+        </c:if>
+
+        <div class="nav-group">Account</div>
+        <a class="nav-item ${activeNav == 'profile' ? 'active' : ''}" href="${ctx}/profile"><i class="bi bi-person-circle"></i>My Profile</a>
+    </nav>
+
+    <div class="sidebar-foot">
+        <div class="sidebar-user">
+            <span class="avatar"><c:out value="${currentUser.initials}"/></span>
+            <span>
+                <strong><c:out value="${currentUser.fullName}"/></strong>
+                <small><c:out value="${currentUser.role.label}"/></small>
+            </span>
+        </div>
+        <form method="post" action="${ctx}/logout">
+            <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
+            <button type="submit" class="nav-item w-100 border-0 bg-transparent text-start"><i class="bi bi-box-arrow-left"></i>Sign out</button>
+        </form>
+    </div>
+</aside>
+
+<div class="app-main">
+    <header class="mobile-bar d-lg-none">
+        <button class="btn btn-icon" id="sidebarToggle" type="button" aria-label="Open menu"><i class="bi bi-list fs-4"></i></button>
+        <strong><c:out value="${applicationScope.academyName}"/></strong>
+    </header>
+
+    <main class="content">
+        <div class="page-head">
+            <h1><c:out value="${pageTitle}"/></h1>
+            <c:if test="${not empty pageSubtitle}"><p><c:out value="${pageSubtitle}"/></p></c:if>
+        </div>
+        <%@ include file="flash.jspf" %>
