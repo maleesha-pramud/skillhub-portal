@@ -2,3 +2,5 @@ target/
 .idea/
 *.iml
 out/
+config.bat
+node_modules
