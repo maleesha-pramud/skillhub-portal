@@ -26,9 +26,15 @@
     </context-param>
 
     <!-- ===================== Listeners ===================== -->
-    <listener><listener-class>com.skillhub.listener.AppContextListener</listener-class></listener>
-    <listener><listener-class>com.skillhub.listener.SessionTrackingListener</listener-class></listener>
-    <listener><listener-class>com.skillhub.listener.RequestStatsListener</listener-class></listener>
+    <listener>
+        <listener-class>com.skillhub.listener.AppContextListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.skillhub.listener.SessionTrackingListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.skillhub.listener.RequestStatsListener</listener-class>
+    </listener>
 
     <!-- ===================== Filters (execution order = order of the mappings) ===================== -->
     <filter>
