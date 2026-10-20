@@ -37,7 +37,7 @@ public class User {
     public boolean isTrainer() { return role == Role.TRAINER; }
     public boolean isStudent() { return role == Role.STUDENT; }
 
-    /** Two-letter initials used for avatars, e.g. "U.Anjali" becomes "UA". */
+    /** Two-letter initials used for avatars, e.g. "M.Pramud" becomes "MP". */
     public String getInitials() {
         if (fullName == null || fullName.isBlank()) {
             return "?";
