@@ -12,12 +12,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -34,11 +31,11 @@ public class InMemoryStore {
     private final Map<Integer, Course> courses = new ConcurrentHashMap<>();
     private final Map<Integer, Enrolment> enrolments = new ConcurrentHashMap<>();
     private final Map<Integer, Attendance> attendance = new ConcurrentHashMap<>();
-    private final AtomicInteger userSeq = new AtomicInteger();
-    private final AtomicInteger courseSeq = new AtomicInteger();
-    private final AtomicInteger enrolSeq = new AtomicInteger();
-    private final AtomicInteger attSeq = new AtomicInteger();
-    private final Deque<String> activityLog = new ConcurrentLinkedDeque<>();
+    private int userSeq;
+    private int courseSeq;
+    private int enrolSeq;
+    private int attSeq;
+    private final List<String> activityLog = new ArrayList<>();
     private final Map<String, long[]> failedLogins = new ConcurrentHashMap<>();
     private final String dummyHash = PasswordUtil.hash("not-a-real-password");
 
@@ -70,7 +67,7 @@ public class InMemoryStore {
 
     public synchronized User saveUser(User u) {
         if (u.getId() == 0) {
-            u.setId(userSeq.incrementAndGet());
+            u.setId(++userSeq);
         }
         users.put(u.getId(), u);
         return u;
@@ -143,7 +140,7 @@ public class InMemoryStore {
 
     public synchronized Course saveCourse(Course c) {
         if (c.getId() == 0) {
-            c.setId(courseSeq.incrementAndGet());
+            c.setId(++courseSeq);
         }
         courses.put(c.getId(), c);
         return c;
@@ -186,7 +183,7 @@ public class InMemoryStore {
         if (isEnrolled(studentId, courseId)) return s.getFullName() + " is already enrolled in " + c.getCode() + ".";
         if (enrolledCount(courseId) >= c.getCapacity()) return c.getCode() + " is full. No seats are available.";
         Enrolment e = new Enrolment();
-        e.setId(enrolSeq.incrementAndGet());
+        e.setId(++enrolSeq);
         e.setStudentId(studentId);
         e.setCourseId(courseId);
         e.setEnrolledOn(LocalDate.now());
@@ -217,7 +214,7 @@ public class InMemoryStore {
             attendance.values().removeIf(a -> a.getCourseId() == courseId
                     && a.getStudentId() == en.getKey() && a.getDate().equals(date));
             Attendance a = new Attendance();
-            a.setId(attSeq.incrementAndGet());
+            a.setId(++attSeq);
             a.setCourseId(courseId);
             a.setStudentId(en.getKey());
             a.setDate(date);
@@ -241,16 +238,16 @@ public class InMemoryStore {
 
     // ---------------------------------------------------------- activity log
 
-    public void log(String message) {
+    public synchronized void log(String message) {
         String clean = message == null ? "" : message.replaceAll("[\\r\\n\\t]", " ");
-        activityLog.addFirst(LocalDateTime.now().format(LOG_TIME) + "  " + clean);
+        activityLog.add(0, LocalDateTime.now().format(LOG_TIME) + "  " + clean);
         while (activityLog.size() > 100) {
-            activityLog.pollLast();
+            activityLog.remove(activityLog.size() - 1);
         }
     }
 
-    public List<String> recentLog(int max) {
-        return activityLog.stream().limit(max).collect(Collectors.toList());
+    public synchronized List<String> recentLog(int max) {
+        return new ArrayList<>(activityLog.subList(0, Math.min(max, activityLog.size())));
     }
 
     // ------------------------------------------------------------- seed data
@@ -361,7 +358,7 @@ public class InMemoryStore {
 
     private void enrolDirect(int studentId, int courseId, LocalDate on) {
         Enrolment e = new Enrolment();
-        e.setId(enrolSeq.incrementAndGet());
+        e.setId(++enrolSeq);
         e.setStudentId(studentId);
         e.setCourseId(courseId);
         e.setEnrolledOn(on);

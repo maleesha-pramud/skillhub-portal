@@ -3,7 +3,6 @@ package com.skillhub.listener;
 import com.skillhub.model.User;
 import com.skillhub.store.InMemoryStore;
 import com.skillhub.util.WebUtil;
-import java.util.concurrent.atomic.AtomicInteger;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
@@ -18,14 +17,20 @@ public class SessionTrackingListener implements HttpSessionListener, HttpSession
 
     @Override
     public void sessionCreated(HttpSessionEvent se) {
-        counter(se.getSession().getServletContext()).incrementAndGet();
+        ServletContext ctx = se.getSession().getServletContext();
+        synchronized (ctx) {
+            ctx.setAttribute("activeSessions", (Integer) ctx.getAttribute("activeSessions") + 1);
+        }
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
-        AtomicInteger c = counter(se.getSession().getServletContext());
-        if (c.get() > 0) {
-            c.decrementAndGet();
+        ServletContext ctx = se.getSession().getServletContext();
+        synchronized (ctx) {
+            int count = (Integer) ctx.getAttribute("activeSessions");
+            if (count > 0) {
+                ctx.setAttribute("activeSessions", count - 1);
+            }
         }
     }
 
@@ -56,9 +61,5 @@ public class SessionTrackingListener implements HttpSessionListener, HttpSession
         if (u != null) {
             store.log(u.getFullName() + " (" + u.getRole().getLabel() + ") " + action);
         }
-    }
-
-    private AtomicInteger counter(ServletContext ctx) {
-        return (AtomicInteger) ctx.getAttribute("activeSessions");
     }
 }

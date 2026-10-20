@@ -14,8 +14,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -48,8 +46,8 @@ public class DashboardServlet extends HttpServlet {
         req.setAttribute("totalCourses", courses.size());
         req.setAttribute("totalEnrolments", enrolments.size());
         req.setAttribute("attendanceRate", InMemoryStore.attendanceRate(store.findAttendance()));
-        req.setAttribute("activeSessions", ((AtomicInteger) req.getServletContext().getAttribute("activeSessions")).get());
-        req.setAttribute("totalRequests", ((AtomicLong) req.getServletContext().getAttribute("totalRequests")).get());
+        req.setAttribute("activeSessions", req.getServletContext().getAttribute("activeSessions"));
+        req.setAttribute("totalRequests", req.getServletContext().getAttribute("totalRequests"));
         req.setAttribute("recentEnrolments", enrolments.subList(0, Math.min(5, enrolments.size())));
 
         List<Map<String, Object>> util = new ArrayList<>();

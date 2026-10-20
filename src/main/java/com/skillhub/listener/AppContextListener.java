@@ -2,8 +2,6 @@ package com.skillhub.listener;
 
 import com.skillhub.store.InMemoryStore;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -27,8 +25,8 @@ public class AppContextListener implements ServletContextListener {
         ctx.setAttribute("defaultCapacity", Integer.parseInt(valueOr(ctx.getInitParameter("defaultCapacity"), "30")));
         ctx.setAttribute("registrationOpen", Boolean.parseBoolean(valueOr(ctx.getInitParameter("registrationOpen"), "true")));
         ctx.setAttribute("startedAt", new Date());
-        ctx.setAttribute("activeSessions", new AtomicInteger(0));
-        ctx.setAttribute("totalRequests", new AtomicLong(0));
+        ctx.setAttribute("activeSessions", 0);
+        ctx.setAttribute("totalRequests", 0L);
 
         ctx.log("SkillHub portal initialised with demo data.");
     }
