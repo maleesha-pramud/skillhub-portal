@@ -14,51 +14,56 @@
     </a>
 
     <nav class="sidebar-nav">
-        <div class="nav-group">Overview</div>
-        <a class="nav-item ${activeNav == 'dashboard' ? 'active' : ''}" href="${ctx}/dashboard"><i class="bi bi-grid-1x2"></i>Dashboard</a>
+        <div class="nav-group">Home</div>
+        <a class="nav-item ${activeNav == 'dashboard' ? 'active' : ''}" href="${ctx}/dashboard"><i class="bi bi-grid-1x2"></i><span>Dashboard</span></a>
 
         <c:if test="${currentUser.admin}">
-            <div class="nav-group">Academy</div>
-            <a class="nav-item ${activeNav == 'students' ? 'active' : ''}" href="${ctx}/admin/students"><i class="bi bi-people"></i>Students</a>
-            <a class="nav-item ${activeNav == 'trainers' ? 'active' : ''}" href="${ctx}/admin/trainers"><i class="bi bi-person-workspace"></i>Trainers</a>
-            <a class="nav-item ${activeNav == 'courses' ? 'active' : ''}" href="${ctx}/courses"><i class="bi bi-journal-bookmark"></i>Courses</a>
-            <a class="nav-item ${activeNav == 'enrolments' ? 'active' : ''}" href="${ctx}/enrolments"><i class="bi bi-card-checklist"></i>Enrolments</a>
-            <a class="nav-item ${activeNav == 'attendance' ? 'active' : ''}" href="${ctx}/attendance"><i class="bi bi-calendar-check"></i>Attendance</a>
-            <a class="nav-item ${activeNav == 'mark' ? 'active' : ''}" href="${ctx}/attendance/mark"><i class="bi bi-clipboard2-check"></i>Mark Attendance</a>
-            <div class="nav-group">System</div>
-            <a class="nav-item ${activeNav == 'users' ? 'active' : ''}" href="${ctx}/admin/users"><i class="bi bi-shield-lock"></i>Manage Users</a>
-            <a class="nav-item ${activeNav == 'reports' ? 'active' : ''}" href="${ctx}/admin/reports"><i class="bi bi-bar-chart-line"></i>Reports</a>
-            <a class="nav-item ${activeNav == 'settings' ? 'active' : ''}" href="${ctx}/admin/settings"><i class="bi bi-sliders"></i>Settings</a>
+            <div class="nav-group">People</div>
+            <a class="nav-item ${activeNav == 'students' ? 'active' : ''}" href="${ctx}/admin/students"><i class="bi bi-people"></i><span>Students</span></a>
+            <a class="nav-item ${activeNav == 'trainers' ? 'active' : ''}" href="${ctx}/admin/trainers"><i class="bi bi-person-workspace"></i><span>Trainers</span></a>
+
+            <div class="nav-group">Programmes</div>
+            <a class="nav-item ${activeNav == 'courses' ? 'active' : ''}" href="${ctx}/courses"><i class="bi bi-journal-bookmark"></i><span>Course Catalogue</span></a>
+            <a class="nav-item ${activeNav == 'enrolments' ? 'active' : ''}" href="${ctx}/enrolments"><i class="bi bi-card-checklist"></i><span>Enrolments</span></a>
+
+            <div class="nav-group">Attendance</div>
+            <a class="nav-item ${activeNav == 'mark' ? 'active' : ''}" href="${ctx}/attendance/mark"><i class="bi bi-clipboard2-check"></i><span>Take Attendance</span></a>
+            <a class="nav-item ${activeNav == 'attendance' ? 'active' : ''}" href="${ctx}/attendance"><i class="bi bi-calendar-check"></i><span>Attendance Records</span></a>
+
+            <div class="nav-group">Administration</div>
+            <a class="nav-item ${activeNav == 'reports' ? 'active' : ''}" href="${ctx}/admin/reports"><i class="bi bi-bar-chart-line"></i><span>Reports</span></a>
+            <a class="nav-item ${activeNav == 'users' ? 'active' : ''}" href="${ctx}/admin/users"><i class="bi bi-shield-lock"></i><span>User Accounts</span></a>
+            <a class="nav-item ${activeNav == 'settings' ? 'active' : ''}" href="${ctx}/admin/settings"><i class="bi bi-sliders"></i><span>Academy Settings</span></a>
         </c:if>
 
         <c:if test="${currentUser.trainer}">
             <div class="nav-group">Teaching</div>
-            <a class="nav-item ${activeNav == 'courses' ? 'active' : ''}" href="${ctx}/courses"><i class="bi bi-journal-bookmark"></i>Assigned Courses</a>
-            <a class="nav-item ${activeNav == 'attendance' ? 'active' : ''}" href="${ctx}/attendance"><i class="bi bi-calendar-check"></i>Attendance</a>
+            <a class="nav-item ${activeNav == 'courses' ? 'active' : ''}" href="${ctx}/courses"><i class="bi bi-journal-bookmark"></i><span>My Courses</span></a>
+            <a class="nav-item ${activeNav == 'attendance' ? 'active' : ''}" href="${ctx}/attendance"><i class="bi bi-calendar-check"></i><span>Attendance Records</span></a>
         </c:if>
 
         <c:if test="${currentUser.student}">
             <div class="nav-group">Learning</div>
-            <a class="nav-item ${activeNav == 'courses' ? 'active' : ''}" href="${ctx}/courses"><i class="bi bi-journal-bookmark"></i>Browse Courses</a>
-            <a class="nav-item ${activeNav == 'enrolments' ? 'active' : ''}" href="${ctx}/enrolments"><i class="bi bi-card-checklist"></i>My Enrolments</a>
-            <a class="nav-item ${activeNav == 'attendance' ? 'active' : ''}" href="${ctx}/attendance"><i class="bi bi-calendar-check"></i>My Attendance</a>
+            <a class="nav-item ${activeNav == 'courses' ? 'active' : ''}" href="${ctx}/courses"><i class="bi bi-journal-bookmark"></i><span>Explore Courses</span></a>
+            <a class="nav-item ${activeNav == 'enrolments' ? 'active' : ''}" href="${ctx}/enrolments"><i class="bi bi-card-checklist"></i><span>My Enrolments</span></a>
+            <a class="nav-item ${activeNav == 'attendance' ? 'active' : ''}" href="${ctx}/attendance"><i class="bi bi-calendar-check"></i><span>My Attendance</span></a>
         </c:if>
 
         <div class="nav-group">Account</div>
-        <a class="nav-item ${activeNav == 'profile' ? 'active' : ''}" href="${ctx}/profile"><i class="bi bi-person-circle"></i>My Profile</a>
+        <a class="nav-item ${activeNav == 'profile' ? 'active' : ''}" href="${ctx}/profile"><i class="bi bi-person-circle"></i><span>My Profile</span></a>
     </nav>
 
     <div class="sidebar-foot">
-        <div class="sidebar-user">
+        <a class="sidebar-user" href="${ctx}/profile" title="My Profile">
             <span class="avatar"><c:out value="${currentUser.initials}"/></span>
-            <span>
+            <span class="sidebar-user-info">
                 <strong><c:out value="${currentUser.fullName}"/></strong>
                 <small><c:out value="${currentUser.role.label}"/></small>
             </span>
-        </div>
+        </a>
         <form method="post" action="${ctx}/logout">
             <input type="hidden" name="_csrf" value="${sessionScope.csrfToken}">
-            <button type="submit" class="nav-item w-100 border-0 bg-transparent text-start"><i class="bi bi-box-arrow-left"></i>Sign out</button>
+            <button type="submit" class="nav-item signout"><i class="bi bi-box-arrow-left"></i><span>Sign out</span></button>
         </form>
     </div>
 </aside>
